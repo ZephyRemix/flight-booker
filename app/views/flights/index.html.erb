@@ -1,0 +1,35 @@
+<h1>Search your flights</h1>
+
+<%= form_with url: :flights_index, method: :get do |f| %>
+    <div>
+        <%= f.label :departure_airport, "Departure airport:" %>
+        <%= select(:flight, :departure_airport, @airport_options) %>
+    </div>
+    
+    <div>
+        <%= f.label :arrival_airport, "Arrival airport:" %>
+        <%= select(:flight, :arrival_airport, @airport_options) %>
+    </div>
+    
+    <div>
+        <%= f.label :date, "Flight date:" %>
+        <%= select(:flight, :date, @flight_dates_options) %>
+    </div>
+
+    <div>
+        <%= f.label :num_tickets, "Number of passengers:" %>
+        <%= select_tag(:num_tickets, options_for_select([[1,1], [2,2], [3,3], [4,4]])) %>
+    </div>
+    
+    <%= f.submit "Search" %>
+<% end %>
+
+<% unless @flights.nil? %>
+    <h1>Search result</h1>
+    <% @flights.each do |flight| %>
+        <p>Leaving from: <%= flight.departure_airport.code %></p>
+        <p>Arriving at: <%= flight.arrival_airport.code %></p>
+        <p>Date: <%= flight.date %></p>
+        <p>Duration: <%= flight.duration_minutes %> minutes</p>
+    <% end %>
+<% end %>
