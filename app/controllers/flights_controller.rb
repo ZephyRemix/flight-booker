@@ -1,17 +1,19 @@
 class FlightsController < ApplicationController
   def index
     @airport_options = Airport.all.map { |airport| [ airport.code, airport.id ] }
-    @flight_dates_options = Flight.all.map { |flight| [ flight.date.to_date, flight.date ] }
+    @flight_dates_options = Flight.order_by_date.all.map { |flight| [ flight.date_formatted, flight.date ] }
     if params[:flight].nil?
       render
     else
-      Rails.logger.info("Params: #{params}")
-      Rails.logger.info("Flight params: #{params[:flight]}")
       # find for available flight that matches search
-      @flights = Flight.where(departure_airport: params[:flight][:departure_airport])
-                        .where(arrival_airport: params[:flight][:arrival_airport])
-                        .where(date: params[:flight][:date])
-      Rails.logger.info(@flights)
+      @flights = Flight.where(departure_airport: flight_search_params[:departure_airport])
+                        .where(arrival_airport: flight_search_params[:arrival_airport])
+                        .where(date: flight_search_params[:date])
     end
+  end
+
+  private
+  def flight_search_params
+    params.require(:flight).permit(:departure_airport, :arrival_airport, :date)
   end
 end
