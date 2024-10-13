@@ -9,4 +9,11 @@ class Flight < ApplicationRecord
   def self.order_by_date
     self.order(date: :asc)
   end
+
+  def flight_details
+    "Leaving from: #{departure_airport.code}, \n
+    Arriving at: #{arrival_airport.code}, \n
+    Date: #{date_formatted}, \n
+    Duration: #{duration_minutes} minutes"
+  end
 end

@@ -26,10 +26,9 @@
 
 <% unless @flights.nil? %>
     <h1>Search result</h1>
-    <% @flights.each do |flight| %>
-        <p>Leaving from: <%= flight.departure_airport.code %></p>
-        <p>Arriving at: <%= flight.arrival_airport.code %></p>
-        <p>Date: <%= flight.date %></p>
-        <p>Duration: <%= flight.duration_minutes %> minutes</p>
+
+    <%= form_with method: :get do |f| %>
+        <%= f.collection_radio_buttons(:flight_id, @flights, :id, :flight_details) %>
+        <%# To add hidden field for # of passengers once created bookingsController %>
     <% end %>
 <% end %>
