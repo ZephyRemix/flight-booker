@@ -7,20 +7,19 @@
 <p>Duration (minutes): <%= @flight.duration_minutes %></p>
 
 <h3>Passenger information</h3>
-<%= form_with model: @booking do |form| %>
+<%= form_with model: @booking do |f| %>
     <ul>
-        <% @flight.passengers.each do |passenger| %>
-            <%= form.fields_for passenger do |passenger_form| %>
-                <li>
-                    <%= passenger_form.label :name %>
-                    <%= passenger_form.text_field :name %>
+        <%= f.hidden_field :flight_id, value: @flight.id %>
+        <%= f.fields_for :passengers do |passenger_form| %>
+            <li>
+                <%= passenger_form.label :name %>
+                <%= passenger_form.text_field :name %>
 
-                    <%= passenger_form.label :email %>
-                    <%= passenger_form.email_field :email %>
-                </li>
-            <% end %>
+                <%= passenger_form.label :email %>
+                <%= passenger_form.email_field :email %>
+            </li>
         <% end %>
     </ul>
-    <%= form.submit %>
+    <%= f.submit %>
 <% end %>
     
