@@ -27,8 +27,9 @@
 <% unless @flights.nil? %>
     <h1>Search result</h1>
 
-    <%= form_with method: :get do |f| %>
+    <%= form_with url: :new_booking, method: :get do |f| %>
         <%= f.collection_radio_buttons(:flight_id, @flights, :id, :flight_details) %>
-        <%# To add hidden field for # of passengers once created bookingsController %>
+        <%= f.hidden_field :num_tickets, value: @num_tickets %>
+        <%= f.submit "Book"%>
     <% end %>
 <% end %>
