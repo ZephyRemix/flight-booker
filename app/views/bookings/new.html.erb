@@ -7,19 +7,9 @@
 <p>Duration (minutes): <%= @flight.duration_minutes %></p>
 
 <h3>Passenger information</h3>
-<%= form_with model: @booking do |f| %>
-    <ul>
-        <%= f.hidden_field :flight_id, value: @flight.id %>
-        <%= f.fields_for :passengers do |passenger_form| %>
-            <li>
-                <%= passenger_form.label :name %>
-                <%= passenger_form.text_field :name %>
-
-                <%= passenger_form.label :email %>
-                <%= passenger_form.email_field :email %>
-            </li>
-        <% end %>
-    </ul>
-    <%= f.submit %>
-<% end %>
+<div id="passenger_info" data-controller="passenger">
+    <%= render partial: "passenger_form", locals: { booking: @booking, flight: @flight } %>
+    <button data-action="passenger#add">Add Passenger</button>
+    <button data-action="passenger#remove">Remove</button>
+</div>
     
